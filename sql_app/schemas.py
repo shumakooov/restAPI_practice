@@ -1,9 +1,7 @@
-from typing import List, Union
-
 from pydantic import BaseModel
 
 
-class PriceBase(BaseModel):
+class ProductBase(BaseModel):
     category: str
     brand_name: str
     product_name: str
@@ -11,11 +9,11 @@ class PriceBase(BaseModel):
     price_int: int
 
 
-class PriceCreate(PriceBase):
+class ProductCreate(ProductBase):
     update_date: str
 
 
-class Price(PriceBase):
+class Product(ProductBase):
     id: int
 
     class Config:

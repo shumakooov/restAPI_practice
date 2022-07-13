@@ -20,41 +20,41 @@ def get_db():
         db.close()
 
 
-@app.post("/prices/", response_model=schemas.Price)
-def create_price(price: schemas.PriceCreate, db: Session = Depends(get_db)):
-    db_price = crud.get_price_by_name(db, product_name=price.product_name)
-    if db_price and db_price.price_int == price.price_int:
-        raise HTTPException(status_code=400, detail="Price already exist")
-    return crud.create_price(db=db, price=price)
+@app.post("/products/", response_model=schemas.Product)
+def create_product(product: schemas.ProductCreate, db: Session = Depends(get_db)):
+    db_product = crud.get_product_by_name(db, product_name=product.product_name)
+    if db_product and db_product.price_int == product.price_int:
+        raise HTTPException(status_code=400, detail="Product already exist")
+    return crud.create_product(db=db, product=product)
 
 
-@app.get("/prices/", response_model=List[schemas.Price])
-def read_prices(skip: int = 0, limit: int = 100, db: Session = Depends(get_db)):
-    prices = crud.get_prices(db, skip=skip, limit=limit)
-    return prices
+@app.get("/products/", response_model=List[schemas.Product])
+def read_products(skip: int = 0, limit: int = 100, db: Session = Depends(get_db)):
+    products = crud.get_products(db, skip=skip, limit=limit)
+    return products
 
 
-@app.get("/prices/{price_id}", response_model=schemas.Price)
-def read_price(price_id: int, db: Session = Depends(get_db)):
-    db_price = crud.get_price(db, price_id=price_id)
-    if db_price is None:
-        raise HTTPException(status_code=404, detail="User not found")
-    return db_price
-
-
-@app.delete("/prices/{price_id}", response_model=dict)
-def delete_price(price_id: int, db: Session = Depends(get_db)):
-    db_price = crud.get_price(db, price_id=price_id)
-    if db_price is None:
+@app.get("/products/{product_id}", response_model=schemas.Product)
+def read_product(product_id: int, db: Session = Depends(get_db)):
+    db_product = crud.get_product(db, product_id=product_id)
+    if db_product is None:
         raise HTTPException(status_code=404, detail="Product not found")
-    crud.delete_price(db, price_id)
+    return db_product
+
+
+@app.delete("/products/{product_id}", response_model=dict)
+def delete_product(product_id: int, db: Session = Depends(get_db)):
+    db_product = crud.get_product(db, product_id=product_id)
+    if db_product is None:
+        raise HTTPException(status_code=404, detail="Product not found")
+    crud.delete_product(db, product_id)
     return {"status": "ok"}
 
 
-@app.put("/prices/{price_id}", response_model=schemas.Price)
-def update_price(price_id: int, price: schemas.PriceCreate, db: Session = Depends(get_db)):
-    db_price = crud.get_price(db, price_id=price_id)
-    if db_price is None:
+@app.put("/products/{product_id}", response_model=schemas.Product)
+def update_product(product_id: int, product: schemas.ProductCreate, db: Session = Depends(get_db)):
+    db_product = crud.get_product(db, product_id=product_id)
+    if db_product is None:
         raise HTTPException(status_code=404, detail="Product not found")
-    db_price = crud.update_price(db, price_id, price)
-    return db_price
+    db_product = crud.update_product(db, product_id, product)
+    return db_product
