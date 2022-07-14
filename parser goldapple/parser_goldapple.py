@@ -21,7 +21,7 @@ driver.get(PRODUCT_URL)
 driver.set_window_size(1920, 1080)
 time.sleep(1)
 driver.execute_script("window.scrollTo(0, document.body.scrollHeight);")
-time.sleep(3)
+time.sleep(4)
 
 html = driver.page_source
 soup = BeautifulSoup(html, "lxml")
@@ -37,7 +37,7 @@ Base = declarative_base()
 
 
 class Price(Base):
-    __tablename__ = "price"
+    __tablename__ = "product"
     id = Column(Integer, primary_key=True)
     category = Column(String)
     brand_name = Column(String(64))
@@ -47,7 +47,7 @@ class Price(Base):
     update_date = Column(DateTime)
 
 
-engine = create_engine("sqlite:///db_goldapple.sqlite")
+engine = create_engine("sqlite:///goldapple.sqlite")
 Base.metadata.create_all(engine)
 
 session = Session(bind=engine)

@@ -1,7 +1,9 @@
-from sqlalchemy.orm import Session
 from datetime import datetime
 
-from . import models, schemas
+from sqlalchemy.orm import Session
+
+import models
+import schemas
 
 
 def get_product(db: Session, product_id: int):
