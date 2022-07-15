@@ -54,3 +54,8 @@ def update_product(db: Session, product_id: int, product: schemas.ProductCreate)
     db.refresh(item)
     return item
 
+
+def get_products_by_brand(db: Session, brand_name: str):
+    return db.query(models.Product).filter(models.Product.brand_name == brand_name).all()
+
+
